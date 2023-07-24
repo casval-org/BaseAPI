@@ -1,0 +1,30 @@
+{
+  "name": "baseapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^6.7.0",
+    "joi": "^17.8.4",
+    "jsonwebtoken": "^9.0.0",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.41",
+    "mongoose": "^6.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.1",
+    "nodemon": "^2.0.20"
+  }
+}

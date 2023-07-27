@@ -1,54 +1,67 @@
-# Node.js API Dokümantasyonu Başlıkları:
+# CASVAL Base Backend API
 
-1. Giriş
+CASVAL'ın Backend api mimarisi
 
-2. API Tanımı
+## İçerik Listesi
 
-3. Çalışma Yöntemi
-
-4. Kurulum
-
+1. Kurulum
     - Gereksinimler
-
     - Kurulum Adımları
-
     - Örnek Kod
-
-5. API Endpointleri
-
+2. API Endpointleri(WIP)
     - Endpoint 1
-
         - Açıklama
-
         - Kullanım Örnekleri
-
         - Parametreler
-
         - Başarı Durumları
-
         - Hata Durumları
-
     - Endpoint 2
-
         - Açıklama
-
         - Kullanım Örnekleri
-
         - Parametreler
-
         - Başarı Durumları
-
         - Hata Durumları
-
-6. Güvenlik
-
+3. Güvenlik(WIP)
     - Yetkilendirme
-
     - Kimlik Doğrulama
+4. Sınırlar(WIP)
+5. Sık Sorulan Sorular (SSS)(WIP)
 
-7. Sınırlar
+### Kurulum
 
-8. Sık Sorulan Sorular (SSS)
+Bu API uygulaması Nodejs ile yazılmış olup npm(node package manager) açık kaynak kütüphane ve frameworklerini kullanmaktadır.
 
-9. İletişim
+#### Gereksinimler
 
+- Bilgisayarınızda Nodejs ve npm'in kurulu olması.
+- Aktif bir internet bağlantınızın olması
+
+#### Kurulum Adımları
+
+1. Nodejs ve npm Kurulumu
+
+[Nodejs](https://nodejs.org/en) bağlantısını tarayıcımızda açıyoruz ve en güncel LTS(long term support) olan sürümü bilgisayarımıza kuruyoruz.
+
+Kurulum dosyasını çalıştırıp gerekli adımları uyguladıktan sonra kurulum tamamlanmış olacaktır. Yeni bir terminal açıp `node --version` ve `npm --version` komutlarını kullanarak bilgisayarımıza kurulu olduklarını doğrulayalım.
+   
+2. Repoyu klonlama
+
+Projeyi çalıştıracağınız klasörde bir terminal açıp `git clone` komutu ile projeyi klonlayın.
+
+```shell
+git clone SSH_URL
+```
+
+`cd` komutu ile projenin ana klasörüne giriş yapın
+
+```shell
+cd BaseAPI
+```
+
+3. Bağımlılıkların kurulumu
+
+Projenin ana klasörüne giriş yaptık. Şimdi sırada npm bağımlılıklarını yüklemek var. Terminalinizde aşağıdaki komutu kullanın.
+
+```shell
+npm install
+```

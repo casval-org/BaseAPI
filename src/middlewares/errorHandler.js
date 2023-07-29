@@ -8,6 +8,13 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     });
   }
 
+  if (err.custom === true) {
+    return res.status(err.statusCode || 400).json({
+      success: false,
+      message: err.message,
+    });
+  }
+
   return res.status(500).json({
     success: false,
     message: "Something went wrong, please try again later!",

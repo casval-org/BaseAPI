@@ -3,9 +3,11 @@ const APIError = require("../utils/errors");
 const multer = require("multer");
 const upload = require("../middlewares/lib/upload");
 const auth = require("./auth.routes");
+const payment = require("./payment.routes");
 const Response = require("../utils/response");
 
 router.use(auth);
+router.use(payment);
 
 router.post("/upload", function (req, res) {
   upload(req, res, function (err) {

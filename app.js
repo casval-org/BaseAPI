@@ -25,7 +25,7 @@ app.use("/uploads", express.static(__dirname));
 
 app.use(cors(corsOptions));
 
-app.use("/api", apiLimiter);
+app.use("/api", apiLimiter); //limiter
 
 app.use(
   mongoSanitize({

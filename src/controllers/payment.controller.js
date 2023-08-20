@@ -32,7 +32,8 @@ const addPayment = async (req, res) => {
     installment: "1",
     paymentChannel: "WEB",
     paymentGroup: "PRODUCT",
-    buyer: { // Removed unrequired fields and added database user integration
+    buyer: {
+      // Removed unrequired fields and added database user integration
       id: user._id.toString(),
       name: user.name,
       surname: user.lastname,
@@ -76,8 +77,7 @@ const addPayment = async (req, res) => {
       cardUserKey,
       price,
     };
-  }
-  else if (!cardToken && !cardUserKey) {
+  } else if (!cardToken && !cardUserKey) {
     data.paymentCard = {
       cardHolderName,
       cardNumber,
@@ -90,8 +90,6 @@ const addPayment = async (req, res) => {
     throw new APIError("Please Enter A Valid Payment Method");
   }
 
-
-
   return new Promise(async (resolve, reject) => {
     iyzipay.payment.create(data, async function (err, result) {
       if (err || result.status !== "success")
@@ -101,6 +99,13 @@ const addPayment = async (req, res) => {
           message: result.errorMessage || err.message,
         });
 
+      if (!req.user.cardUserKey) {
+        req.user.cardUserKey = result.cardUserKey;
+        await req.user.save().catch((err) => {
+          console.log(err);
+        });
+      }
+
       const paymentSave = new payment({
         sendData: data,
         resultData: result,
@@ -109,7 +114,7 @@ const addPayment = async (req, res) => {
       await paymentSave
         .save()
         .then((response) => {
-          console.log(response);
+          //console.log(response);
         })
         .catch((err) => {
           console.log(err);
@@ -123,8 +128,8 @@ const addPayment = async (req, res) => {
 };
 
 const cardList = async (req, res) => {
-  const { cardUserKey } = req.body;
-
+  //const { cardUserKey } = req.body;
+  const cardUserKey = req.user.cardUserKey;
   return new Promise(async (resolve, reject) => {
     iyzipay.cardList.retrieve({ cardUserKey }, async function (err, result) {
       if (err || result.status !== "success")
@@ -216,5 +221,5 @@ module.exports = {
   addPayment,
   cardList,
   saveNewCard,
-  deleteCard
+  deleteCard,
 };

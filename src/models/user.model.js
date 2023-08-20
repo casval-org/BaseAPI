@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema(
         default: null,
       },
     },
+    cardUserKey: {
+      type: String,
+      unique: true,
+    },
   },
   { collection: "users", timestamps: true }
 );

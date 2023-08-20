@@ -21,7 +21,6 @@ const addPayment = async (req, res) => {
     registerCard,
     cardToken,
     cardUserKey,
-    isSaved,
   } = req.body;
   const user = req.user;
   let data = {
@@ -38,7 +37,7 @@ const addPayment = async (req, res) => {
       name: user.name,
       surname: user.lastname,
       email: user.email,
-      identityNumber: "74300864791", // ID Number of the buyer (Real Life Governmental ID)
+      identityNumber: "12345678910", // ID Number of the buyer (Real Life Governmental ID)
       registrationAddress: "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
       ip: "85.34.78.112", //Can be added later to the user data
       city: "Istanbul", //Can be added later to the user data
@@ -71,13 +70,14 @@ const addPayment = async (req, res) => {
   };
 
   //Saved Card Integration
-  if (isSaved && cardToken && cardUserKey) {
+  if (cardToken && cardUserKey) {
     data.paymentCard = {
       cardToken,
       cardUserKey,
       price,
     };
-  } else if (!isSaved) {
+  }
+  else if (!cardToken && !cardUserKey) {
     data.paymentCard = {
       cardHolderName,
       cardNumber,
@@ -89,6 +89,8 @@ const addPayment = async (req, res) => {
   } else {
     throw new APIError("Please Enter A Valid Payment Method");
   }
+
+
 
   return new Promise(async (resolve, reject) => {
     iyzipay.payment.create(data, async function (err, result) {

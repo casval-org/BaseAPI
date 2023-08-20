@@ -154,42 +154,83 @@ const cardList = async (req, res) => {
 };
 
 const saveNewCard = async (req, res) => {
-  const {
-    cardAlias,
-    cardHolderName,
-    cardNumber,
-    expireDate,
-    email,
-    cardUserKey,
-  } = req.body;
+  //TODO: Add support for new card and user key creation without payment
+  //DONE: Add support for new card and user key creation without payment
 
-  const data = {
-    locale: "tr",
-    email,
-    cardUserKey,
-    card: {
-      cardAlias,
-      cardHolderName,
-      cardNumber,
-      expireMonth: expireDate.split("/")[0],
-      expireYear: "20" + expireDate.split("/")[1],
-    },
-  };
 
-  return new Promise(async (resolve, reject) => {
-    iyzipay.card.create(data, async function (err, result) {
-      if (err || result.status !== "success")
-        return reject({
-          custom: true,
-          status: 400,
-          message: result.errorMessage || err.message,
-        });
+  //FIXME: Prevent saving same card twice and/or prevent same names for different cards
 
-      return resolve(
-        new Response(result, "Successfully added a new card!").success(res)
-      );
+  const { cardAlias, cardHolderName, cardNumber, expireDate} = req.body;
+
+  if (req.user.cardUserKey) {
+    // Add new card to an existing user key
+    const data = {
+      locale: Iyzipay.LOCALE.TR,
+      cardUserKey: req.user.cardUserKey,
+      card: {
+        cardAlias,
+        cardHolderName,
+        cardNumber,
+        expireMonth: expireDate.split("/")[0],
+        expireYear: "20" + expireDate.split("/")[1],
+      },
+    };
+
+    return new Promise(async (resolve, reject) => {
+      iyzipay.card.create(data, async function (err, result) {
+        if (err || result.status !== "success")
+          return reject({
+            custom: true,
+            status: 400,
+            message: result.errorMessage || err.message,
+          });
+
+        return resolve(
+          new Response(
+            result,
+            "Successfully added a new card to your user key!"
+          ).success(res)
+        );
+      });
     });
-  });
+  } else {
+    const data = {
+      locale: Iyzipay.LOCALE.TR,
+      email: req.user.email,
+      card: {
+        cardAlias,
+        cardHolderName,
+        cardNumber,
+        expireMonth: expireDate.split("/")[0],
+        expireYear: "20" + expireDate.split("/")[1],
+      },
+    };
+    return new Promise(async (resolve, reject) => {
+      iyzipay.card.create(data, async function (err, result) {
+        if (err || result.status !== "success")
+          return reject({
+            custom: true,
+            status: 400,
+            message: result.errorMessage || err.message,
+          });
+
+          if (!req.user.cardUserKey) {
+            req.user.cardUserKey = result.cardUserKey;
+            await req.user.save().catch((err) => {
+              console.log(err);
+            });
+          }
+
+
+        return resolve(
+          new Response(
+            result,
+            "Successfully created a new user key and added a card!"
+          ).success(res)
+        );
+      });
+    });
+  }
 };
 
 const deleteCard = async (req, res) => {

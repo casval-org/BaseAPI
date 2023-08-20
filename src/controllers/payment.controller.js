@@ -23,7 +23,7 @@ const addPayment = async (req, res) => {
     cardUserKey,
     isSaved,
   } = req.body;
-
+  const user = req.user;
   let data = {
     locale: Iyzipay.LOCALE.TR,
     conversationId: id,
@@ -33,20 +33,16 @@ const addPayment = async (req, res) => {
     installment: "1",
     paymentChannel: "WEB",
     paymentGroup: "PRODUCT",
-    buyer: {
-      id: "BY789",
-      name: "John",
-      surname: "Doe",
-      gsmNumber: "+905350000000",
-      email: "email@email.com",
-      identityNumber: "74300864791",
-      lastLoginDate: "2015-10-05 12:43:35",
-      registrationDate: "2013-04-21 15:12:09",
+    buyer: { // Removed unrequired fields and added database user integration
+      id: user._id.toString(),
+      name: user.name,
+      surname: user.lastname,
+      email: user.email,
+      identityNumber: "74300864791", // ID Number of the buyer (Real Life Governmental ID)
       registrationAddress: "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
-      ip: "85.34.78.112",
-      city: "Istanbul",
-      country: "Turkey",
-      zipCode: "34732",
+      ip: "85.34.78.112", //Can be added later to the user data
+      city: "Istanbul", //Can be added later to the user data
+      country: "Turkey", //Can be added later to the user data
     },
     shippingAddress: {
       contactName: "Jane Doe",

@@ -129,7 +129,7 @@ const addPayment = async (req, res) => {
 
 const cardList = async (req, res) => {
   //const { cardUserKey } = req.body;
-  const cardUserKey = req.user.cardUserKey;
+  const { cardUserKey } = req.user;
   return new Promise(async (resolve, reject) => {
     iyzipay.cardList.retrieve({ cardUserKey }, async function (err, result) {
       if (err || result.status !== "success")
@@ -154,15 +154,12 @@ const cardList = async (req, res) => {
 };
 
 const saveNewCard = async (req, res) => {
-  //TODO: Add support for new card and user key creation without payment
-  //DONE: Add support for new card and user key creation without payment
-
-
   //FIXME: Prevent saving same card twice and/or prevent same names for different cards
 
-  const { cardAlias, cardHolderName, cardNumber, expireDate} = req.body;
+  const { cardAlias, cardHolderName, cardNumber, expireDate } = req.body;
+  let { cardUserKey } = req.user;
 
-  if (req.user.cardUserKey) {
+  if (cardUserKey) {
     // Add new card to an existing user key
     const data = {
       locale: Iyzipay.LOCALE.TR,
@@ -177,6 +174,7 @@ const saveNewCard = async (req, res) => {
     };
 
     return new Promise(async (resolve, reject) => {
+
       iyzipay.card.create(data, async function (err, result) {
         if (err || result.status !== "success")
           return reject({
@@ -193,6 +191,7 @@ const saveNewCard = async (req, res) => {
         );
       });
     });
+
   } else {
     const data = {
       locale: Iyzipay.LOCALE.TR,
@@ -205,6 +204,7 @@ const saveNewCard = async (req, res) => {
         expireYear: "20" + expireDate.split("/")[1],
       },
     };
+
     return new Promise(async (resolve, reject) => {
       iyzipay.card.create(data, async function (err, result) {
         if (err || result.status !== "success")
@@ -214,13 +214,10 @@ const saveNewCard = async (req, res) => {
             message: result.errorMessage || err.message,
           });
 
-          if (!req.user.cardUserKey) {
-            req.user.cardUserKey = result.cardUserKey;
-            await req.user.save().catch((err) => {
-              console.log(err);
-            });
-          }
-
+        cardUserKey = result.cardUserKey;
+        await req.user.save().catch((err) => {
+          console.log(err);
+        });
 
         return resolve(
           new Response(

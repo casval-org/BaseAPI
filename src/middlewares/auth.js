@@ -24,8 +24,7 @@ const tokenCheck = async (req, res, next) => {
   const headerToken =
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer ");
-
-  if (!headerToken)
+  if (!headerToken) 
     throw new APIError("Invalid session, please try again", 401);
 
   const token = req.headers.authorization.split(" ")[1];

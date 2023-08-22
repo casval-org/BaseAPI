@@ -11,7 +11,7 @@ const {
   updateProfile,
   deleteUser,
 } = require("../controllers/auth.controller");
-const authValidation = require("../middlewares/validations/auth.validation");
+const authValidation = require("../middlewares/Validations/auth.validation");
 const { tokenCheck } = require("../middlewares/auth");
 
 router.post("/login", authValidation.login, login);
@@ -34,17 +34,11 @@ router.get("/get-users", getAllUsers);
 
 router.delete("/delete-user/:id", deleteUser);
 
-
-
-
 // router.get("/get-users", getUsers);
-
-
 
 // get-all-users
 // get-user/:id
 // delete-user/:id
 // update-profile/:id
-
 
 module.exports = router;

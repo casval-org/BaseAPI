@@ -24,8 +24,7 @@ const tokenCheck = async (req, res, next) => {
   const headerToken =
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer ");
-
-  if (!headerToken)
+  if (!headerToken) 
     throw new APIError("Invalid session, please try again", 401);
 
   const token = req.headers.authorization.split(" ")[1];
@@ -34,8 +33,7 @@ const tokenCheck = async (req, res, next) => {
     if (err) throw new APIError("Invalid Token", 401);
 
     const userInfo = await user
-      .findById(decoded.sub)
-      .select("_id name lastname email ");
+      .findById(decoded.sub);
 
     if (!userInfo) throw new APIError("Invalid Token", 401);
 

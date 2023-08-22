@@ -12,7 +12,6 @@ const sendEmail = require("../utils/sendMail");
 const moment = require("moment");
 
 const login = async (req, res) => {
-  console.log("login");
   const { email, password } = req.body;
 
   const userInfo = await user.findOne({ email });
@@ -20,7 +19,6 @@ const login = async (req, res) => {
   if (!userInfo) throw new APIError("Email or password is incorrect!", 401);
 
   const comparePassword = await bcrypt.compare(password, userInfo.password);
-  console.log(comparePassword);
 
   if (!comparePassword)
     throw new APIError("Email or password is incorrect!", 401);
@@ -147,7 +145,6 @@ const resetPassword = async (req, res) => {
   ).success(res);
 };
 
-
 const getUserbyId = async (req, res) => {
   try {
     console.log("getUserById çalıştı");
@@ -239,7 +236,9 @@ const updateProfile = async (req, res) => {
       return new Response(data, "User updated succesfully").success(res);
     });
   } catch (error) {
-    return new Response(error, "Unexcepted error, please try again!").error500(res);
+    return new Response(error, "Unexcepted error, please try again!").error500(
+      res
+    );
   }
 };
 
@@ -254,5 +253,4 @@ module.exports = {
   getUserbyId,
   updateProfile,
   deleteUser,
-
 };

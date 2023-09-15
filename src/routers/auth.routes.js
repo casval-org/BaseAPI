@@ -34,11 +34,4 @@ router.get("/get-users", getAllUsers);
 
 router.delete("/delete-user/:id", deleteUser);
 
-// router.get("/get-users", getUsers);
-
-// get-all-users
-// get-user/:id
-// delete-user/:id
-// update-profile/:id
-
 module.exports = router;

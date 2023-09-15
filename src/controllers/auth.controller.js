@@ -202,7 +202,7 @@ const updateProfile = async (req, res) => {
     console.log("updateProfile çalıştı");
 
     const { id } = req.params;
-    const { name, lastname, username, password } = req.body;
+    const { name, lastname, password } = req.body;
 
     const userInfo = await user.findById(id);
 
@@ -215,18 +215,17 @@ const updateProfile = async (req, res) => {
     if (!comparePassword)
       throw new APIError("Email or password is incorrect!", 401);
 
-    const usernameCheck = await user.findOne({ username });
+    // const usernameCheck = await user.findOne({ username });
 
-    if (usernameCheck) {
-      throw new APIError(
-        "Username already exist, please enter a different username!",
-        401
-      );
-    }
+    // if (usernameCheck) {
+    //   throw new APIError(
+    //     "Username already exist, please enter a different username!",
+    //     401
+    //   );
+    // }
     const userDetail = {
       name,
       lastname,
-      username,
     };
 
     userInfo.updateOne(userDetail, (err, data) => {

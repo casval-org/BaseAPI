@@ -7,25 +7,9 @@ CASVAL'ın Backend api mimarisi
 1. Kurulum
     - Gereksinimler
     - Kurulum Adımları
-    - Örnek Kod
 2. API Endpointleri(WIP)
-    - Endpoint 1
-        - Açıklama
-        - Kullanım Örnekleri
-        - Parametreler
-        - Başarı Durumları
-        - Hata Durumları
-    - Endpoint 2
-        - Açıklama
-        - Kullanım Örnekleri
-        - Parametreler
-        - Başarı Durumları
-        - Hata Durumları
-3. Güvenlik(WIP)
-    - Yetkilendirme
-    - Kimlik Doğrulama
-4. Sınırlar(WIP)
-5. Sık Sorulan Sorular (SSS)(WIP)
+    - Auth Endpoints
+    - Payment Endpoints
 
 ### Kurulum
 
@@ -65,3 +49,45 @@ Projenin ana klasörüne giriş yaptık. Şimdi sırada npm bağımlılıkların
 ```shell
 npm install
 ```
+
+4. MongoDb Veritabanının Oluşturulması
+
+Projeyi çalıştırabilmek için uygulamanız gereken en önemli adımlardan biri bu adımdır.
+- Öncelikle bir [MongoDB](ttps://cloud.mongodb.com/) hesabı oluşturun.
+- Ardından ücretsiz bir M0 Cluster oluşturun.
+- Oluşturma işleminden sonra username ve password MongoDB tarafından önerilecektir. Bu bilgileri mutlaka not alın. Kaybetmeniz durumunda veritabanına erişmek için Data Access bölümünde şifre sıfırlamanız gerekmektedir.
+- Finish and Close dedikten sonra Overview sayfasına yönlendirileceksiniz. Connect'e bastıktan sonra ilk sırada bulunan Compass methodunu seçin. Dilerseniz cihazınıza Compass'i kurabilirsiniz.
+- Hemen aşağıda `mongodb+srv://<username>:<password>@cluster0.eb9cq89.mongodb.net/` yazısını kopyalayın ve daha önce kaydettiğiniz username ve password'ü yerleştirerek sıradaki adıma geçin.
+
+
+5. Ortam Değişkenleri Dosyasını Güncellemek
+
+Klonladığınız projede yer alan `.env.example `içerisindeki değişkenleri `.env` dosyası oluşturarak içine kopyalayın.
+
+```shell
+PORT = <Your_Port>
+
+# Database
+DB_URL = "mongodb+srv://<username>:<password>@cluster0.ipemtmt.mongodb.net/<database>"
+
+# JWT
+JWT_SECRET_KEY = "<Your_JWT_Secret_Key>"
+JWT_EXPIRES_IN = "7d"
+
+# Email
+EMAIL_ADDRESS = "<Your_Email_Address>"
+EMAIL_PASSWORD = "<Your_Email_Password>"
+
+# Temporary JWT
+JWT_TEMPORARY_KEY = "<Your_JWT_Temporary_Key>"
+JWT_TEMPORARY_EXPIRES_IN = "3m"
+
+# Iyzipay Api Key
+PAYMENT_API_KEY = "."
+PAYMENT_SECRET_KEY = "."
+```
+
+### API Endpointleri
+
+Soon!
+

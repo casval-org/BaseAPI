@@ -20,7 +20,7 @@
     "express-mongo-sanitize": "^2.2.0",
     "express-rate-limit": "^6.11.2",
     "iyzipay": "^2.0.61",
-    "joi": "^17.10.1",
+    "joi": "^17.13.1",
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.41",

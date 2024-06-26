@@ -1,5 +1,5 @@
 const Iyzipay = require("iyzipay");
-const { v4: uuidv4 } = require("uuid");
+const { randomUUID } = require("node:crypto");
 const Response = require("../utils/response");
 const APIError = require("../utils/errors");
 const payment = require("../models/payment.model");
@@ -11,7 +11,9 @@ const iyzipay = new Iyzipay({
 });
 
 const addPayment = async (req, res) => {
-  const id = uuidv4();
+  const id = randomUUID({
+    disableEntropyCache: true,
+  })
   const {
     price,
     cardHolderName,

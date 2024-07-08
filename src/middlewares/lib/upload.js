@@ -23,8 +23,7 @@ const fileFilter = (req, file, cb) => {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const rootDir = path.dirname(require.main.filename);
-
+    const rootDir = __dirname;
     fs.mkdirSync(path.join(rootDir, "/public/uploads"), { recursive: true });
     cb(null, path.join(rootDir, "/public/uploads"));
   },

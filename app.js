@@ -25,7 +25,7 @@ app.use(
 );
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/uploads", express.static(__dirname));
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads")))
 
 app.use(cors(corsOptions));
 
